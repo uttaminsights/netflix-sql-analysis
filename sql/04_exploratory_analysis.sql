@@ -433,3 +433,229 @@ LIMIT 10;
 -- Netflix's catalogue contains classic titles dating back
 -- to the 1940s, demonstrating that the platform offers both
 -- historical and modern content to its audience.
+
+-- ==========================================================
+-- Question 11: Newest Movies and TV Shows on Netflix
+-- ==========================================================
+-- Business Question:
+-- Which are the newest Movies and TV Shows available on Netflix?
+--
+-- Objective:
+-- Identify the most recently released titles available in the
+-- Netflix catalogue.
+--
+-- SQL Concepts Used:
+-- • ORDER BY
+-- • DESC
+-- • LIMIT
+-- ==========================================================
+
+SELECT
+    title,
+    type,
+    release_year,
+    country,
+    rating
+FROM netflix_titles
+ORDER BY release_year DESC
+LIMIT 10;
+
+-- Expected Output:
+-- +----------------------+----------+--------------+---------------+--------+
+-- | title                | type     | release_year | country       | rating |
+-- +----------------------+----------+--------------+---------------+--------+
+-- | ...                  | Movie    | 2021         | ...           | ...    |
+-- | ...                  | TV Show  | 2021         | ...           | ...    |
+-- | ...                  | Movie    | 2021         | ...           | ...    |
+-- +----------------------+----------+--------------+---------------+--------+
+--
+-- Business Insight:
+-- Netflix's catalogue contains a large number of recently
+-- released titles, reflecting its continuous investment in
+-- new content and frequent catalogue updates.
+
+-- ==========================================================
+-- Question 12: Distribution of Ratings by Content Type
+-- ==========================================================
+-- Business Question:
+-- What is the distribution of content ratings for Movies and
+-- TV Shows on Netflix?
+--
+-- Objective:
+-- Compare content ratings between Movies and TV Shows to
+-- understand the target audience for each content type.
+--
+-- SQL Concepts Used:
+-- • WHERE
+-- • GROUP BY (Multiple Columns)
+-- • COUNT()
+-- • ORDER BY
+-- ==========================================================
+
+SELECT
+    type,
+    rating,
+    COUNT(*) AS total_titles
+FROM netflix_titles
+WHERE rating IS NOT NULL
+GROUP BY type, rating
+ORDER BY type, total_titles DESC;
+
+-- Expected Output:
+-- +----------+-----------+--------------+
+-- | type     | rating    | total_titles |
+-- +----------+-----------+--------------+
+-- | Movie    | TV-MA     | ...          |
+-- | Movie    | R         | ...          |
+-- | Movie    | PG-13     | ...          |
+-- | Movie    | PG        | ...          |
+-- | ...      | ...       | ...          |
+-- | TV Show  | TV-MA     | ...          |
+-- | TV Show  | TV-14     | ...          |
+-- | TV Show  | TV-PG     | ...          |
+-- | ...      | ...       | ...          |
+-- +----------+-----------+--------------+
+--
+-- Business Insight:
+-- This analysis reveals which ratings are most common for
+-- Movies and TV Shows separately. It helps understand the
+-- audience targeted by each content type.
+
+-- ==========================================================
+-- Question 13: Top 10 Most Common Genres on Netflix
+-- ==========================================================
+-- Business Question:
+-- Which genres appear most frequently in the Netflix catalogue?
+--
+-- Objective:
+-- Identify the most common genre combinations available on
+-- Netflix to understand the platform's content focus.
+--
+-- SQL Concepts Used:
+-- • COUNT()
+-- • GROUP BY
+-- • ORDER BY
+-- • LIMIT
+-- ==========================================================
+
+SELECT
+    listed_in AS genre,
+    COUNT(*) AS total_titles
+FROM netflix_titles
+GROUP BY listed_in
+ORDER BY total_titles DESC
+LIMIT 10;
+
+-- Expected Output:
+-- +----------------------------------------------+--------------+
+-- | genre                                        | total_titles |
+-- +----------------------------------------------+--------------+
+-- | Dramas, International Movies                 | ...          |
+-- | Documentaries                                | ...          |
+-- | Stand-Up Comedy                              | ...          |
+-- | Comedies, Dramas, International Movies       | ...          |
+-- | Dramas, Independent Movies                   | ...          |
+-- | Kids' TV                                     | ...          |
+-- | Children & Family Movies                     | ...          |
+-- | ...                                          | ...          |
+-- +----------------------------------------------+--------------+
+--
+-- Business Insight:
+-- Drama and International content appear most
+-- frequently in Netflix's catalogue. This indicates that
+-- Netflix invests heavily in globally appealing content
+-- across multiple genres.
+
+-- ==========================================================
+-- Question 14: Movies vs TV Shows by Country
+-- ==========================================================
+-- Business Question:
+-- Which countries produce the highest number of Movies and
+-- TV Shows available on Netflix?
+--
+-- Objective:
+-- Compare the distribution of Movies and TV Shows across
+-- different countries to identify content production trends.
+--
+-- SQL Concepts Used:
+-- • WHERE
+-- • TRIM()
+-- • GROUP BY (Multiple Columns)
+-- • COUNT()
+-- • ORDER BY
+-- • LIMIT
+-- ==========================================================
+
+SELECT
+    country,
+    type,
+    COUNT(*) AS total_titles
+FROM netflix_titles
+WHERE TRIM(country) <> ''
+GROUP BY country, type
+ORDER BY total_titles DESC
+LIMIT 20;
+
+-- Expected Output:
+-- +----------------+----------+--------------+
+-- | country        | type     | total_titles |
+-- +----------------+----------+--------------+
+-- | United States  | Movie    | ....         |
+-- | India          | Movie    | ....         |
+-- | United States  | TV Show  | ....         |
+-- | United Kingdom | Movie    | ....         |
+-- | Japan          | TV Show  | ....         |
+-- | South Korea    | TV Show  | ....         |
+-- | ...            | ...      | ...          |
+-- +----------------+----------+--------------+
+--
+-- Business Insight:
+-- The United States dominates both Movies and TV Shows on
+-- Netflix. India contributes primarily through Movies,
+-- while countries such as Japan and South Korea have a
+-- strong presence in TV Shows, reflecting regional
+-- production trends.
+
+-- ==========================================================
+-- Question 15: Release Year Trend Analysis
+-- ==========================================================
+-- Business Question:
+-- How has the number of Movies and TV Shows released changed
+-- over the years?
+--
+-- Objective:
+-- Analyze the yearly release trend for Movies and TV Shows
+-- to understand Netflix's content growth over time.
+--
+-- SQL Concepts Used:
+-- • GROUP BY (Multiple Columns)
+-- • COUNT()
+-- • ORDER BY
+-- ==========================================================
+
+SELECT
+    release_year,
+    type,
+    COUNT(*) AS total_titles
+FROM netflix_titles
+GROUP BY release_year, type
+ORDER BY release_year ASC, type;
+
+-- Expected Output:
+-- +--------------+----------+--------------+
+-- | release_year | type     | total_titles |
+-- +--------------+----------+--------------+
+-- | 1942         | Movie    | 2            |
+-- | 1943         | Movie    | 3            |
+-- | ...          | ...      | ...          |
+-- | 2019         | Movie    | 633          |
+-- | 2019         | TV Show  | 397          |
+-- | 2020         | Movie    | 517          |
+-- | 2020         | TV Show  | 436          |
+-- +--------------+----------+--------------+
+--
+-- Business Insight:
+-- Netflix's catalogue has grown significantly over the years,
+-- especially after 2015. Movies make up the majority of the
+-- catalogue, while the number of TV Shows has also increased
+-- steadily in recent years.
