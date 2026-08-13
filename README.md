@@ -1,22 +1,50 @@
-# Netflix SQL Analysis
+# Netflix SQL Data Analysis
 
 ## Project Overview
 
-This project analyzes the Netflix content library using SQL to uncover business insights.
+This project analyzes the Netflix titles dataset using MySQL.
 
-## Objectives
-
-- Analyze Movies vs TV Shows
-- Explore genre distribution
-- Identify top directors and actors
-- Analyze yearly content additions
-- Discover country-wise trends
+The objective is to clean, explore, and analyze Netflix content to identify
+content distribution, release trends, ratings, countries, directors, genres,
+and other business insights.
 
 ## Tools Used
 
-- SQL (MySQL)
-- Git & GitHub
+- MySQL
+- MySQL Workbench
+- SQL
+- Git
+- GitHub
 
-## Status
+## Dataset
 
-🚧 In Progress
+The dataset contains Netflix Movies and TV Shows with information including:
+
+- Show ID
+- Type
+- Title
+- Director
+- Cast
+- Country
+- Date Added
+- Release Year
+- Rating
+- Duration
+- Genres
+- Description
+
+Total records analyzed: 8,807
+
+## Project Structure
+
+```text
+netflix-sql-analysis/
+│
+├── 01_database_setup.sql
+├── 02_create_table.sql
+├── 03_data_cleaning.sql
+├── 04_exploratory_data_analysis.sql
+├── 05_advanced_sql_analysis.sql
+├── 06_business_insights.sql
+├── netflix_titles.csv
+└── README.md
